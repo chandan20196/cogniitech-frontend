@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss/preflight";
+
+/* Tailwind v4 uses the utilities entry only; component layers are handled differently. */
+@tailwind utilities;
+
+/* Add any global styles below. */
+@import "tailwindcss";
+@theme {
+  --font-poppins: "Poppins", sans-serif;
+}
+
+/* --------------------------
+   Logo marquee styles
+   Paste into index.css
+   -------------------------- */
+
+/* Container: hides overflow */
+.marquee {
+  width: 90%;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: auto;
+  
+}
+
+/* The moving track - use this element to hold a duplicated list of logos */
+.marquee-track {
+  display: flex;
+  gap: 3.5rem;            /* space between logos */
+  align-items: center;
+  width: max-content;  
+  padding: 10px;   /* important for smooth scroll */
+}
+
+/* Top row: moves left -> right (content slides right) */
+.marquee-track--right {
+  animation: marquee-right 50s linear infinite;
+  will-change: transform;
+}
+
+/* Bottom row: moves right -> left (content slides left) */
+.marquee-track--left {
+  animation: marquee-left 50s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover for better accessibility */
+.marquee-track--right:hover,
+.marquee-track--left:hover {
+  animation-play-state: paused;
+}
+
+/* Logo appearance */
+.marquee-track img {
+  height: 30px;           /* adjust size as needed */
+  opacity: 0.65;
+  transition: opacity 150ms ease, transform 150ms ease;
+  user-select: none;
+  pointer-events: auto;
+}
+.marquee-track img:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+/* Keyframes:
+   - marquee-left: content moves left (0% -> -50%)
+   - marquee-right: content moves right (-50% -> 0%)
+   Note: you should duplicate the logo list inside the track so the animation loops seamlessly.
+*/
+@keyframes marquee-left {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .marquee-track img { height: 28px; gap: 1.25rem; }
+  .marquee-track { gap: 1.25rem; }
+  .marquee-track--left,
+  .marquee-track--right { animation-duration: 40s; } /* slower on small screens */
+}
+
+
+.wavy-btn {
+  /* keep button text white on top */
+  color: #fff;
+  background: #000;
+  border: none;
+  line-height: 1;
+  position: relative;
+}
+
+/* the SVG is large and initially positioned below (so wave hidden).
+   On hover we translate it up so the white wave fills from bottom -> up. */
+.wavy-btn .wave-svg {
+  position: absolute;
+  left: 0;
+  right: 50;
+  bottom: -70%;                /* start below the button */
+  width: 290%;                 /* wide to allow smooth wave */
+  height: 280%;
+  transform: translateY(100%);
+  transition: transform 0.55s cubic-bezier(.2,.9,.2,1), bottom 0.55s;
+  pointer-events: none;        /* let clicks pass to the button */
+  z-index: 5;                  /* behind text but above background */
+}
+
+/* move the svg up when hovering the button */
+.wavy-btn:hover .wave-svg {
+  transform: translateY(2%);  /* tune this to control fill height */
+  bottom: -10%;
+}
+
+/* The path wobble (only active on hover so it doesn't animate constantly) */
+.wavy-btn .wave-path {
+  transform-origin: 50% 50%;
+  transition: transform 1s linear;
+  will-change: transform;
+}
+
+/* enable a subtle "liquid" motion while hovered */
+.wavy-btn:hover .wave-path {
+  animation: waveFloat 1.9s ease-in-out infinite;
+}
+
+/* wobble keyframes */
+@keyframes waveFloat {
+  0%   { transform: translateX(0) translateY(0) scaleX(1); }
+  25%  { transform: translateX(-6px) translateY(-4px) scaleX(1.02); }
+  50%  { transform: translateX(0) translateY(-6px)  scaleX(1); }
+  75%  { transform: translateX(6px) translateY(-4px)  scaleX(1.20); }
+  100% { transform: translateX(0) translateY(0) scaleX(1); }
+}
+
+/* ensure button text contrast after fill (optional) */
+/* If you want the text to change color when the white wave covers it: */
+.wavy-btn:hover {
+  color: #000; /* change text to black when wave covers it */
+}
