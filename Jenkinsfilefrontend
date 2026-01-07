@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         TARGET_SERVER = 'ubuntu@15.207.113.251'      // EC2 user and IP
-        FRONTEND_DIR = '/home/ubuntu/Cogniitec_Frontend' // Frontend directory
+        FRONTEND_DIR = '/home/ubuntu/Cogniitech_Frontend' // Frontend directory
         FRONTEND_SERVICE_NAME = 'Cogniitec_frontend' // PM2 service name
     }
 
